@@ -4,6 +4,7 @@ import ShowStories from './ShowStories';
 
 const App = () =>{
   const [storyIds, setStoryIds] = useState([]);
+  const [story, setStory] = useState([]);
   useEffect(() =>{
     services.getAllIds()
       .then(ids =>{
@@ -13,7 +14,7 @@ const App = () =>{
 
   return(
     <div>
-      <ShowStories ids = {storyIds}/>
+      <ShowStories ids = {storyIds} story = {story} setStory = {setStory}/>
     </div>
   );
 }
