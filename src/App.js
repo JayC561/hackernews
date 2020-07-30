@@ -1,21 +1,27 @@
 import React,{useState, useEffect} from 'react';
 import axios from 'axios';
+import Story from './Story';
+import Header from './Header';
 
 const App = () =>{
   const [stories, setStories] = useState([]);
   useEffect(() =>{
-    axios.get('http://localhost:3001/')
-      .then(res =>{
-        setStories(res.data);
+    handleClickNew();
+  }, []);
+
+  const handleClickNext = () =>{
+    axios.get('http://localhost:3001/next')
+      .then(res => {
+        setStories(stories.concat(res.data));
       })
       .catch(err =>{
         console.log(err);
       })
-  }, []);
+  }
 
-  const handleClick = () =>{
-    axios.get('http://localhost:3001/next')
-      .then(res => {
+  const handleClickTop = () =>{
+    axios.get('http://localhost:3001/top')
+      .then(res =>{
         setStories(res.data);
       })
       .catch(err =>{
@@ -23,23 +29,32 @@ const App = () =>{
       })
   }
 
+  const handleClickNew = () =>{
+    axios.get('http://localhost:3001/')
+      .then(res =>{
+        setStories(res.data);
+      })
+      .catch(err =>{
+        console.log(err);
+      })
+  }
+
+
   if(stories.length){
     let count = 1;
     return(
       <div>
-        {
-          stories.map(story =>{
-            return(
-              <div>
-                <p key = {story.id}>
-                  <span><b>{count++}.</b></span>
-                  <a href = {story.url} target = "_blank">{story.title}</a>
-                </p>
-              </div>
-            );
-          })
-        }
-        <button onClick = {handleClick}>more</button>
+        <Header handleClickNew = {handleClickNew} handleClickTop = {handleClickTop}/>
+        <div className = "stories">
+          {
+            stories.map(story =>{
+              return(
+                <Story story = {story} count = {count++}/>
+              );
+            })
+          }
+          <button onClick = {handleClickNext}>more</button>
+        </div>
       </div>
     )
   }

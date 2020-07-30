@@ -27,6 +27,7 @@ const getStory = (id) =>{
 }
 
 const gettingIds = async (url) =>{
+  console.log(url);
   totalIds = await getAllIds(url).then(async ids => await ids);
 }
 
@@ -53,6 +54,7 @@ app.get('/', (req, res) =>{
 app.get('/next', (req, res) =>{
   start = start + increment;
   finish = finish + increment;
+  stories = [];
   if(finish > totalIds){
     const temp = finish - totalIds;
     finish = finish - increment + temp;
@@ -66,12 +68,12 @@ app.get('/next', (req, res) =>{
 app.get('/top', (req, res) =>{
   gettingIds(topStories);
   start = 0;
-  finish = 0;
+  finish = 20;
   stories = [];
   savingStories();
   setTimeout(() =>{
     res.json(stories);
-  });
+  }, 2000);
 })
 
 gettingIds(newStories);
