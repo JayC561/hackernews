@@ -5,4 +5,4 @@ and with the help of Express.js I created another API which will gives values to
 
 ### npm start
 
-It will run out react application.  
+It will run react application.  
